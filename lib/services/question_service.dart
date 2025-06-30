@@ -1,9 +1,42 @@
+// =============================================================================
+// SERVICE DE QUESTIONS - GESTION DE LA BASE DE DONNÉES DE QUESTIONS
+// =============================================================================
+// Ce service contient toutes les questions du quiz organisées par catégorie
+// et niveau de difficulté. Il fournit une méthode pour récupérer les questions
+// appropriées selon les critères sélectionnés par l'utilisateur.
+// 
+// Structure des questions :
+// - 4 catégories : Culture Générale, Programmation, Mathématiques, Histoire
+// - 3 niveaux : Facile, Moyen, Difficile
+// - 10 questions par catégorie/niveau (120 questions au total)
+// - Format : Question + 4 réponses + index de la bonne réponse
+
 import '../models/question_model.dart';
 import 'package:uuid/uuid.dart';
 
+// =============================================================================
+// CLASSE PRINCIPALE DU SERVICE DE QUESTIONS
+// =============================================================================
+/// Service centralisé pour la gestion et la récupération des questions de quiz
+/// Utilise des Maps statiques pour organiser les questions par catégorie et difficulté
+/// Génère des IDs uniques pour chaque question avec le package uuid
 class QuestionService {
+  // =============================================================================
+  // INSTANCE UUID POUR GÉNÉRATION D'IDENTIFIANTS
+  // =============================================================================
+  /// Instance UUID pour générer des identifiants uniques pour chaque question
+  /// Assure l'unicité des questions dans l'application
   static final Uuid _uuid = Uuid();
 
+  // =============================================================================
+  // MÉTHODE PRINCIPALE DE RÉCUPÉRATION DES QUESTIONS
+  // =============================================================================
+  /// Récupère la liste des questions pour une catégorie et difficulté données
+  /// 
+  /// [categorie] : Catégorie de questions (Culture Générale, Programmation, etc.)
+  /// [difficulte] : Niveau de difficulté (Facile, Moyen, Difficile)
+  /// 
+  /// Retourne une liste de 10 questions QuestionModel
   static List<QuestionModel> getQuestions(Categorie categorie, Difficulte difficulte) {
     switch (categorie) {
       case Categorie.cultureGenerale:
@@ -17,8 +50,17 @@ class QuestionService {
     }
   }
 
-  // CULTURE GÉNÉRALE
+  // =============================================================================
+  // BASE DE DONNÉES DE QUESTIONS - CULTURE GÉNÉRALE
+  // =============================================================================
+  /// Questions de culture générale couvrant la géographie, les sciences,
+  /// la nature et les connaissances générales du monde
   static final Map<Difficulte, List<QuestionModel>> _cultureGenerale = {
+    // =============================================================================
+    // QUESTIONS FACILES - CULTURE GÉNÉRALE
+    // =============================================================================
+    /// Questions de base sur la géographie, les sciences et la nature
+    /// Niveau accessible à tous les publics
     Difficulte.facile: [
       QuestionModel(id: _uuid.v4(), question: 'Quelle est la capitale de la France ?', reponses: ['Paris', 'Londres', 'Berlin', 'Madrid'], bonneReponse: 0, categorie: Categorie.cultureGenerale, difficulte: Difficulte.facile),
       QuestionModel(id: _uuid.v4(), question: 'Combien de continents y a-t-il sur Terre ?', reponses: ['5', '6', '7', '8'], bonneReponse: 2, categorie: Categorie.cultureGenerale, difficulte: Difficulte.facile),
@@ -31,6 +73,11 @@ class QuestionService {
       QuestionModel(id: _uuid.v4(), question: 'Quel est le plus grand mammifère terrestre ?', reponses: ['Girafe', 'Éléphant d\'Afrique', 'Rhinocéros', 'Hippopotame'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.facile),
       QuestionModel(id: _uuid.v4(), question: 'Quel est le nom de la plus haute montagne du monde ?', reponses: ['K2', 'Mont Everest', 'Kangchenjunga', 'Lhotse'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.facile),
     ],
+    // =============================================================================
+    // QUESTIONS MOYENNES - CULTURE GÉNÉRALE
+    // =============================================================================
+    /// Questions intermédiaires sur l'histoire, la géographie avancée et les sciences
+    /// Niveau nécessitant des connaissances générales solides
     Difficulte.moyen: [
       QuestionModel(id: _uuid.v4(), question: 'En quelle année a eu lieu la Révolution française ?', reponses: ['1492', '1789', '1914', '1848'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.moyen),
       QuestionModel(id: _uuid.v4(), question: 'Quel est le plus grand pays du monde en superficie ?', reponses: ['Chine', 'États-Unis', 'Canada', 'Russie'], bonneReponse: 3, categorie: Categorie.cultureGenerale, difficulte: Difficulte.moyen),
@@ -43,6 +90,11 @@ class QuestionService {
       QuestionModel(id: _uuid.v4(), question: 'Combien de chromosomes a l\'être humain ?', reponses: ['23', '46', '69', '92'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.moyen),
       QuestionModel(id: _uuid.v4(), question: 'Quel est le plus grand oiseau volant du monde ?', reponses: ['Condor des Andes', 'Albatros hurleur', 'Marabout d\'Afrique', 'Aigle royal'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.moyen),
     ],
+    // =============================================================================
+    // QUESTIONS DIFFICILES - CULTURE GÉNÉRALE
+    // =============================================================================
+    /// Questions avancées sur des sujets spécialisés et des connaissances pointues
+    /// Niveau expert nécessitant une culture générale très étendue
     Difficulte.difficile: [
       QuestionModel(id: _uuid.v4(), question: 'Quel est le nom du président du Conseil pendant la Seconde Guerre mondiale en France ?', reponses: ['Charles de Gaulle', 'Philippe Pétain', 'Georges Clemenceau', 'Paul Reynaud'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.difficile),
       QuestionModel(id: _uuid.v4(), question: 'Quel est le plus grand canyon du monde ?', reponses: ['Grand Canyon', 'Canyon du Yarlung Tsangpo', 'Canyon du Colca', 'Canyon de Copper'], bonneReponse: 1, categorie: Categorie.cultureGenerale, difficulte: Difficulte.difficile),

@@ -7,6 +7,9 @@ import '../providers/score_provider.dart';
 import '../models/score_model.dart';
 import '../models/question_model.dart';
 
+/// Écran d'affichage des scores utilisateur
+/// Présente un résumé des performances, l'historique des parties et les statistiques
+/// Interface moderne avec cartes et graphiques de performance
 class ScoresScreen extends StatefulWidget {
   const ScoresScreen({super.key});
 
@@ -18,10 +21,12 @@ class _ScoresScreenState extends State<ScoresScreen> {
   @override
   void initState() {
     super.initState();
+    // Chargement des données utilisateur après la construction du widget
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final scoreProvider = Provider.of<ScoreProvider>(context, listen: false);
       
+      // Chargement des scores de l'utilisateur connecté et des meilleurs scores
       if (authProvider.firebaseUser != null) {
         scoreProvider.loadUserScores(authProvider.firebaseUser!.uid);
         scoreProvider.loadTopScores();
@@ -33,6 +38,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
+      // Barre d'application avec titre et navigation
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -50,6 +56,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
       ),
       body: Consumer2<AuthProvider, ScoreProvider>(
         builder: (context, authProvider, scoreProvider, child) {
+          // Affichage de l'indicateur de chargement pendant le chargement des données
           if (scoreProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -59,11 +66,11 @@ class _ScoresScreenState extends State<ScoresScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Résumé des meilleurs scores
+                // SECTION 1: Résumé des performances avec statistiques
                 _buildSummaryCard(authProvider, scoreProvider),
                 const SizedBox(height: 24),
 
-                // Titre de l'historique
+                // SECTION 2: Titre de l'historique
                 Text(
                   'Historique des parties',
                   style: GoogleFonts.poppins(
@@ -74,7 +81,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Liste des scores
+                // SECTION 3: Liste des scores ou état vide
                 if (scoreProvider.userScores.isEmpty)
                   _buildEmptyState()
                 else
@@ -87,7 +94,9 @@ class _ScoresScreenState extends State<ScoresScreen> {
     );
   }
 
+  /// Construction de la carte de résumé des performances
   Widget _buildSummaryCard(AuthProvider authProvider, ScoreProvider scoreProvider) {
+    // Calcul des statistiques de performance
     final bestScore = scoreProvider.getBestUserScore(authProvider.firebaseUser!.uid);
     final averageScore = scoreProvider.getUserAverageScore(authProvider.firebaseUser!.uid);
 
@@ -108,6 +117,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Titre de la section
           Text(
             'Résumé de vos performances',
             style: GoogleFonts.poppins(
@@ -117,6 +127,8 @@ class _ScoresScreenState extends State<ScoresScreen> {
             ),
           ),
           const SizedBox(height: 16),
+          
+          // Première ligne de statistiques
           Row(
             children: [
               Expanded(
@@ -139,6 +151,8 @@ class _ScoresScreenState extends State<ScoresScreen> {
             ],
           ),
           const SizedBox(height: 16),
+          
+          // Deuxième ligne de statistiques
           Row(
             children: [
               Expanded(
@@ -165,6 +179,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
     );
   }
 
+  /// Construction d'une carte de statistique individuelle
   Widget _buildStatCard(String title, String value, IconData icon, Color color) {
     return Container(
       padding: const EdgeInsets.all(12),
@@ -175,8 +190,10 @@ class _ScoresScreenState extends State<ScoresScreen> {
       ),
       child: Column(
         children: [
+          // Icône de la statistique
           Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
+          // Valeur de la statistique
           Text(
             value,
             style: GoogleFonts.poppins(
@@ -186,6 +203,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
             ),
           ),
           const SizedBox(height: 4),
+          // Titre de la statistique
           Text(
             title,
             style: GoogleFonts.poppins(
@@ -199,17 +217,20 @@ class _ScoresScreenState extends State<ScoresScreen> {
     );
   }
 
+  /// Construction de l'état vide quand aucun score n'est disponible
   Widget _buildEmptyState() {
     return Container(
       padding: const EdgeInsets.all(40),
       child: Column(
         children: [
+          // Icône illustrative
           Icon(
             Icons.quiz_outlined,
             size: 64,
             color: Colors.grey[400],
           ),
           const SizedBox(height: 16),
+          // Message principal
           Text(
             'Aucun score enregistré',
             style: GoogleFonts.poppins(
@@ -219,6 +240,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
             ),
           ),
           const SizedBox(height: 8),
+          // Message d'encouragement
           Text(
             'Commencez par jouer à quelques quiz !',
             style: GoogleFonts.poppins(
@@ -232,6 +254,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
     );
   }
 
+  /// Construction de la liste des scores utilisateur
   Widget _buildScoresList(List<ScoreModel> scores) {
     return ListView.builder(
       shrinkWrap: true,
@@ -255,6 +278,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
           ),
           child: ListTile(
             contentPadding: const EdgeInsets.all(16),
+            // Avatar avec icône de catégorie
             leading: CircleAvatar(
               backgroundColor: _getCategoryColor(score.categorie),
               child: Icon(
@@ -262,6 +286,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
                 color: Colors.white,
               ),
             ),
+            // Titre avec nom de la catégorie
             title: Text(
               score.categorieString,
               style: GoogleFonts.poppins(
@@ -269,6 +294,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
                 fontSize: 16,
               ),
             ),
+            // Sous-titre avec difficulté et date
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -282,6 +308,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
                 ),
               ],
             ),
+            // Score et pourcentage à droite
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -309,6 +336,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
     );
   }
 
+  /// Obtention de la couleur associée à une catégorie
   Color _getCategoryColor(Categorie categorie) {
     switch (categorie) {
       case Categorie.cultureGenerale:
@@ -322,6 +350,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
     }
   }
 
+  /// Obtention de l'icône associée à une catégorie
   IconData _getCategoryIcon(Categorie categorie) {
     switch (categorie) {
       case Categorie.cultureGenerale:
@@ -335,6 +364,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
     }
   }
 
+  /// Obtention de la couleur du score selon le pourcentage de réussite
   Color _getScoreColor(double percentage) {
     if (percentage >= 80) return Colors.green;
     if (percentage >= 60) return Colors.orange;

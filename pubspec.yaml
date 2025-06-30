@@ -1,3 +1,9 @@
+# =============================================================================
+# FICHIER DE CONFIGURATION DU PROJET QUIZ ÉDUCATIF
+# =============================================================================
+# Ce fichier définit les métadonnées du projet, les dépendances et la configuration
+# pour l'application Flutter de quiz éducatif avec authentification Firebase.
+
 name: quiz_educatif_3
 description: "Application de quiz éducatif avec authentification et scores"
 # The following line prevents the package from being accidentally published to
@@ -35,26 +41,48 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   
-  # Firebase
+  # =============================================================================
+  # FIREBASE - AUTHENTIFICATION ET BASE DE DONNÉES CLOUD
+  # =============================================================================
+  # Core Firebase - initialisation et configuration
   firebase_core: ^3.6.0
+  # Authentification Firebase - gestion des utilisateurs
   firebase_auth: ^5.3.3
   
-  # Base de données locale
+  # =============================================================================
+  # BASE DE DONNÉES LOCALE
+  # =============================================================================
+  # SQLite pour Flutter - stockage local des données
   sqflite: ^2.3.3+1
+  # Gestion des chemins de fichiers
   path: ^1.9.0
   
-  # Animations
+  # =============================================================================
+  # ANIMATIONS ET UI
+  # =============================================================================
+  # Animations fluides et modernes
   flutter_animate: ^4.5.0
   
-  # Polices
+  # =============================================================================
+  # POLICES ET TYPOGRAPHIE
+  # =============================================================================
+  # Polices Google Fonts pour un design moderne
   google_fonts: ^6.2.1
   
-  # Gestion d'état
+  # =============================================================================
+  # GESTION D'ÉTAT
+  # =============================================================================
+  # Pattern Provider pour la gestion d'état de l'application
   provider: ^6.1.2
   
-  # Utilitaires
+  # =============================================================================
+  # UTILITAIRES
+  # =============================================================================
+  # Génération d'identifiants uniques
   uuid: ^4.5.1
+  # Formatage des dates et internationalisation
   intl: ^0.19.0
+  # Stockage de préférences utilisateur
   shared_preferences: ^2.3.2
 
 dev_dependencies:
