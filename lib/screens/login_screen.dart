@@ -207,7 +207,6 @@ class _LoginScreenState extends State<LoginScreen> {
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
@@ -217,10 +216,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-          child: Icon(
-            Icons.quiz,
-            size: 50,
-            color: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Image.asset(
+              'assets/image/Logo_image.png',
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         

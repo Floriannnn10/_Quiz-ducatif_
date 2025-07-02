@@ -90,10 +90,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ],
               ),
-              child: Icon(
-                Icons.quiz,
-                size: 60,
-                color: Theme.of(context).primaryColor,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.asset(
+                  'assets/image/Logo_image.png',
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
               ),
             )
             // Animation d'échelle avec effet élastique

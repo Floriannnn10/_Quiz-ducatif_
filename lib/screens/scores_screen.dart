@@ -52,7 +52,7 @@ class _ScoresScreenState extends State<ScoresScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
-        ),
+     ),
       ),
       body: Consumer2<AuthProvider, ScoreProvider>(
         builder: (context, authProvider, scoreProvider, child) {
