@@ -57,7 +57,7 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_answered) return;
 
     setState(() {
-      _selectedAnswer = answerIndex;
+      _selectedAnswer = answerIndex; 
       _answered = true;
     });
 

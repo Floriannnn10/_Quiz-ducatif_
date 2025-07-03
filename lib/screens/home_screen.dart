@@ -7,12 +7,15 @@ import '../models/question_model.dart';
 import 'quiz_screen.dart';
 import 'scores_screen.dart';
 import 'profile_screen.dart';
+import 'login_screen.dart';
 
+// Page d'accueil principale de l'application Quiz Éducatif
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold : structure de base de la page
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -26,6 +29,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         actions: [
+          // Bouton pour accéder au profil utilisateur
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () {
@@ -34,6 +38,7 @@ class HomeScreen extends StatelessWidget {
               );
             },
           ),
+          // Bouton de déconnexion avec confirmation
           Consumer<AuthProvider>(
             builder: (context, authProvider, child) {
               return IconButton(
@@ -84,6 +89,11 @@ class HomeScreen extends StatelessWidget {
                   // Si l'utilisateur confirme, procéder à la déconnexion
                   if (shouldLogout == true) {
                     await authProvider.signOut();
+                    // Rediriger vers l'écran de connexion après la déconnexion
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      (route) => false,
+                    );
                   }
                 },
               );
@@ -96,7 +106,7 @@ class HomeScreen extends StatelessWidget {
           final userData = authProvider.userData;
           final firebaseUser = authProvider.firebaseUser;
           
-          // Utiliser les données Firebase directement pour un affichage immédiat
+          // Récupération des informations utilisateur pour l'affichage
           String username = 'Utilisateur';
           String email = '';
           String initiale = '?';
@@ -130,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      // Avatar circulaire
+                      // Avatar circulaire avec initiale
                       CircleAvatar(
                         radius: 30,
                         backgroundColor: Theme.of(context).primaryColor,
@@ -184,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Grille des catégories
+                // Grille des catégories de quiz
                 GridView.count(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -193,6 +203,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisSpacing: 16,
                   childAspectRatio: 1.1,
                   children: [
+                    // Carte pour chaque catégorie
                     _buildCategoryCard(
                       context,
                       'Culture Générale',
@@ -225,7 +236,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Bouton pour voir les scores
+                // Bouton pour accéder à l'écran des scores
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -262,6 +273,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Widget pour construire une carte de catégorie de quiz
   Widget _buildCategoryCard(
     BuildContext context,
     String title,
@@ -271,6 +283,7 @@ class HomeScreen extends StatelessWidget {
   ) {
     return InkWell(
       onTap: () {
+        // Affiche la boîte de dialogue de choix de difficulté
         _showDifficultyDialog(context, categorie);
       },
       child: Container(
@@ -310,6 +323,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Affiche une boîte de dialogue pour choisir la difficulté du quiz
   void _showDifficultyDialog(BuildContext context, Categorie categorie) {
     showDialog(
       context: context,
@@ -334,6 +348,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Construit un bouton pour sélectionner la difficulté du quiz
   Widget _buildDifficultyButton(
     BuildContext context,
     String text,
@@ -345,6 +360,7 @@ class HomeScreen extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
+          // Ferme la boîte de dialogue et navigue vers l'écran du quiz avec la catégorie et la difficulté choisies
           Navigator.of(context).pop();
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -374,3 +390,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 } 
+// Fin de la classe HomeScreen 

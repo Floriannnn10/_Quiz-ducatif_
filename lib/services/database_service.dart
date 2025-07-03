@@ -6,7 +6,7 @@
 // une seule instance de base de données.
 
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart'; 
 import '../models/score_model.dart';
 import '../models/user_model.dart';
 
@@ -19,6 +19,10 @@ import '../models/user_model.dart';
 class DatabaseService {
   // =============================================================================
   // PATTERN SINGLETON
+  // Qu'est ce qu'un PATTERN SINGLETON
+  // Le pattern Singleton est un design pattern qui garantit qu'une classe n'a qu'une seule instance et fournit un point d'accès global à cette instance.
+  // Il est souvent utilisé pour des objets qui doivent être partagés dans toute l'application, comme une base de données ou un objet de configuration.
+  // Il est particulièrement utile pour les applications Flutter, car il permet de gérer les performances et les ressources de manière optimale.
   // =============================================================================
   
   /// Instance unique du service (pattern Singleton)
@@ -40,10 +44,10 @@ class DatabaseService {
   /// Getter qui initialise la base de données si nécessaire
   /// Retourne l'instance de base de données existante ou en crée une nouvelle
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
-  }
+    if (_database != null) return _database!; // si la base de données existe, on la retourne 
+    _database = await _initDatabase(); // sinon on la crée 
+    return _database!; // on retourne la base de données 
+  } 
 
   /// Initialise la base de données SQLite avec les tables nécessaires
   /// Crée le fichier de base de données s'il n'existe pas

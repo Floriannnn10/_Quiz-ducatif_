@@ -24,6 +24,7 @@ import 'home_screen.dart';
 // =============================================================================
 /// Écran de connexion avec formulaire et gestion d'état
 /// Utilise le AuthProvider pour gérer l'authentification Firebase
+/// StatefulWidget pour gérer l'état de l'écran 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 

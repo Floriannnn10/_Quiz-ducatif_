@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // override pour gérer l'état de l'écran
   @override
   void initState() {
     super.initState();
